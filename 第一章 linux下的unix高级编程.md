@@ -210,7 +210,7 @@ C++的编译器叫做g++，它的操作与gcc几乎一样，编译reciprotal.hpp
 
 
 
-**1.3 使用****GNU Make****自动处理**
+**1.3 使用**GNU Make**自动处理**
 
 如果你习惯于在Windows操作系统上编程，那么你可能习惯使用集成开发环境（IDE），你只管向工程里添加文件，IDE就会自动帮你完成工程的构建。但是即使Linux系统上有许多可用的IDE，但是本书重点不是介绍它们。做为替代方案，本书会教你像大多数Linux程序员那样，使用GNU Make 来自动重新编译代码。
 
@@ -226,14 +226,13 @@ make的基本思想是非常简单的，你只管告诉make你想要构建的目
 
 ```sh
 reciprotal:main.o reciprotal.o
-	g++$(CFLAGS) –o reciprotal main.o reciprotal.o
+	g++ $(CFLAGS) –o reciprotal main.o reciprotal.o
 	
 main.o:main.c reciprotal.hpp
-    gcc$(CFLAGS) –c main.c
+    gcc $(CFLAGS) –c main.c
 
 reciprotal.o:reciprotal.cpp reciprotal.hpp
-    g++$(CFLAGS) –c reciprotal.cpp
-
+    g++ $(CFLAGS) –c reciprotal.cpp
 
 clean:
     rm–f *.o reciprotal
@@ -249,17 +248,17 @@ clean:
 
 ```sh
  %make
- gcc–c main.c
- g++- reciprotal.cpp
- g++-o reciprotal main.o reciprotal.o
+ gcc –c main.c
+ g++ -c reciprotal.cpp
+ g++ -o reciprotal main.o reciprotal.o
 ```
 
 你会看到make已经自动构建目标文件并链接它们，如果此时对main.c做一些细微的无关紧要的更改并重新输入make构建，会看到如下：
 
 ```sh
 %make
-gcc–c main.c 
-g++-o reciprotal reciprotal.o
+gcc –c main.c 
+g++ -o reciprotal reciprotal.o
 ```
 
 你能发现make知道应该重新构建main.o，重新链接程序，但是它并不会去费心重新编译reciprotal.cpp，原因就是reciprotal.o的依赖没有发生任何变化。
@@ -270,9 +269,9 @@ $(CFLAGS)是make中的一个变量，既可以Makefile中定义它，也可以�
 %make clean
 rm–f *.o reciprtal
 %make CFLAGS=-O
-gcc-O2 –c main.
-g++-O2 –c reciprotal.cp
-g++-O2 –o reciprotal main.o reciprotal.o
+gcc -O2 –c main.
+g++ -O2 –c reciprotal.cp
+g++ -O2 –o reciprotal main.o reciprotal.o
 ```
 
 可以发现在规则里$(CFLAGS)已经被-O2所代替。
@@ -281,11 +280,11 @@ g++-O2 –o reciprotal main.o reciprotal.o
 
 > %info make
 
-在手册中，可以找到如何更容易维护Makefile，如何减少需要写的规则数目，如何自动推导依赖关系等。
+在手册中，可以找到怎样写Makefile更容易维护，如何减少规则数目，如何让Makefile自动推导依赖关系等。
 
 **1.4 使用GNU 调试器调试程序（GDB）**
 
-调试器就是一个帮你找出“为什么你的程序不按照你的逻辑来执行”的程序，当然你还可以用它来做更多的事情[5][5]。一个被大多数Linux程序员使用的调试器就是GNU调试器GDB，你可以使用GDB单步执行代码，设置断点，并且可以查看本地变量的值。
+调试器就是一个帮你找出“为什么你的程序不按照你的逻辑来执行”的程序，当然你还可以用它来做更多的事情[5][5]。一个被大多数Linux程序员使用的调试器就是GNU调试器GDB，你可以使用GDB单步执行代码，设置断点，并且可以查看局部变量的值。
 
 **1.4.1  编译生成调试信息**
 
