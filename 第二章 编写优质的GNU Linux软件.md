@@ -609,11 +609,9 @@ if (rval != 0)
                     path, strerror(error_code));
             /*不结束程序，用户可能会再次选择其他文件*/
             break;
-
         case EFAULT:
             /*路径包含了非法内存地址，这可能是一个bug*/
             abort();
-
         case ENOMEM:
             /*核心内存溢出*/
             fprintf(stderr, “%s\n”, strerror(error_code));
@@ -625,7 +623,7 @@ if (rval != 0)
 }
 ```
 
- 你可直接使用这个代码，如果调用成功，它的行为方式是相同的。
+ 你可直接使用这个代码，如果调用成功，它的表现是相同的。
 
 ```c
 rval =chown(path, user_id, -1);
