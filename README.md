@@ -7,4 +7,4 @@
 ## License: 
 advanced-linux-programming-Zh published under the Open Publication License, Version 1, same as English edition.  
 
-与英文版一致，译文在Open Publication License v1.0下发行。
+与英文版一致，译文在Open Publication License v1.0下发布。
