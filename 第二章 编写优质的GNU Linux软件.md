@@ -423,11 +423,9 @@ mkstemp函数生成的文件不会自动删除，临时文件不再需要的时�
 #include <stdlib.h>
 
 /* 使用write_temp_file创建的临时文件句柄，在这个实现代码中，它仅仅是个文件描述符 */
-
 typedef int temp_file_handle;
 
 /* 从BUFFER中向临时文件中写入LENGTH bytes 这个临时文件会马上unlink，返回一个句柄给临时文件*/
-
 temp_file_handle write_temp_file(char *buffer, size_t length)
 {
     /* 创建文件和文件名，XXXXXX会被替换掉而生成一个唯一的文件名 */
@@ -446,7 +444,7 @@ temp_file_handle write_temp_file(char *buffer, size_t length)
 
 /*
  *读取由write_temp_file函数创建的TRMP_FILE临时文件的内容，返回值就是这些内容新分配的buffer，调用者需要释放
- **LENGTH是设置内容的长度，以byte为单位，临时文件已经被移除了
+ *LENGTH是设置内容的长度，以byte为单位，临时文件已经被移除了
  */
 char *read_temp_file(temp_file_handle temp_file, size_t *length)
 {
@@ -470,7 +468,7 @@ char *read_temp_file(temp_file_handle temp_file, size_t *length)
 
 **使用tmpfile函数**
 
-如果你正在使用C标准库的IO函数而且也不需要通过临时文件与其他的程序传递信息，你可以使用tmpfile函数。这个函数创建打一个临时文件并返回这个文件的文件描述符。这个临时文件是未链接的，当文件描述符闭关闭(使用fclose)或者程序结束的时候就会自动删除。
+如果你要使用C标准库的IO函数而且也不需要通过临时文件与其他的程序传递信息，你可以使用tmpfile函数。这个函数创建并打开一个临时文件，且返回这个文件的文件描述符。这个临时文件是unlink的，当文件描述符闭关闭(使用fclose)或者程序结束的时候就会自动删除。
 
 GNU/Linux还提供了几个其他生成临时文件和临时文件名的函数，包括mktemp，tmpnam，和tempnam。尽量不要使用这些函数，因为它们会给已经提到过的可靠性和安全性带来问题。
 
