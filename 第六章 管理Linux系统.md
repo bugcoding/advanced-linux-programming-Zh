@@ -87,3 +87,11 @@ Linux标识设备使用二个数字: `主设备编号`和`次设备编号`。主
 
 例如，主设备包含主IDE控制器，其主次设备编号伊贺是3和0，有一个标准的名字是`/dev/hda`。如果这个设备支持分区，其中第一块分区的次设备编号就是1，标准的名字就是`/dev/hda1`。你可以在你自己的系统上检查一下:
 
+> % ls -l /dev/hda /dev/hda1
+> brw-rw----    1 root     disk       3,   0 May  5  1998 /dev/hda
+> brw-rw----    1 root     disk       3,   1 May  5  1998 /dev/hda1
+
+同样的，`/dev`还有一个我们之前用的的并行端口字符设备:
+
+> % ls -l /dev/lp0
+> crw-rw----    1 root     daemon     6,   0 May  5  1998 /dev/lp0
