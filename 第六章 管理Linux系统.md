@@ -148,3 +148,5 @@ Table 6.2 placeholder
   > % secure_program < my-password.txt
 
   如果你需要要你的程序中授权用户，你需要了解一个GNU/Linux PAM 工具。查看10.5节，"授权用户"，了解更多内容。
+
+- 程序可以通过向`/dev/audio`直接发送数据来使用系统声卡播放声音。注意数据必须是Sun音频格式(通常是`.au`扩展名)。
