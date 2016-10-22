@@ -155,4 +155,4 @@ Table 6.2 placeholder
 
   > % cat /usr/share/sndconfig/sample.au > /dev/audio
 
-  如果你想在程序中播放声音，你就得研究各种在Linux系统上可用的相关库和服务了。
+  如果你想在程序中播放声音，你就得研究各种在Linux系统上可用的相关库和服务了。Gnome窗口环境使用Enlightenment Sound Daemon(EsounD)，详情http://www.tux.org/~ricdude/EsounD.html，KDE窗口环境使用aRts，详情http://space.twc.de/~stefan/kde/arts-mcop-doc/。如果你使用这些声音系统中的其中一个来代替直接向`/dev/audio`写入数据，你的程序也就更好的与其他使用系统声卡的程序相配合工作。
