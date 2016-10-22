@@ -155,4 +155,4 @@ Table 6.2 placeholder
 
   > % cat /usr/share/sndconfig/sample.au > /dev/audio
 
-  ​
+  如果你想在程序中播放声音，你就得研究各种在Linux系统上可用的相关库和服务了。
