@@ -171,10 +171,12 @@ Linux还提供了几个不与任何硬件相对应的字符设备。这些设备
 
   > % verbose_command > /dev/null
 
-- 从`/dev/null`中读取出来的结果总是文件结束符。例如，假如你使用`open`命令打开了指向`/dev/null`的一个文件描述符，并尝试使用`read`命令从文件中读取内容，`read`命令总是读到空数据并返回0。如果你从`/dev/null`拷贝内容到另一个文件，目标文件将会是0长度的文件。
+- 从`/dev/null`中读取出来的结果总是文件结束符。例如，假如你使用`open`命令打开了指向`/dev/null`的一个文件描述符，并尝试使用`read`命令从文件中读取内容，`read`命令总是读到空数据并返回0。如果你从`/dev/null`设备中拷贝内容到另一个文件，目标文件将会是0长度的文件。
 
   > % cp /dev/null empty-file
   > % ls -l empty-file
   > -rw-rw----    1 samuel   samuel          0 Mar  8 00:27 empty-file
 
+
+### 6.5.2 /dev/zero
 
