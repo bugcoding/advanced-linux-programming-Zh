@@ -194,3 +194,14 @@ Linux还提供了几个不与任何硬件相对应的字符设备。这些设备
 
 内存映射`/dev/zero`是内存内存分配的高级技术。可以查看第五章"进程内通信"，5.3.5节，"`mmap`的其他用处"，获取更多细节。
 
+### 6.5.3 /dev/full
+
+`/dev/full`类似于一个文件在文件系统中没有空间了。向`/dev/full`写入失败同时会设置`errno`为ENOSPC，通常就表示正在写入的设备已经满了。
+
+例如，你可以试着用`cp`命令向`/dev/full`设备写入内容:
+
+> % cp /etc/fstab /dev/full
+> cp: /dev/full: No space left on device
+
+`/dev/full`设备主要用于测试你的程序在磁盘空间不足时还写入文件时的表现。
+
