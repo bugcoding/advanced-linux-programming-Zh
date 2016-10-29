@@ -248,33 +248,40 @@ Linux还提供了几个不与任何硬件相对应的字符设备。这些设备
 #include <sys/types.h>
 #include <fcntl.h>
 #include <unistd.h>
+
 /* 返回MIN与MAX之间的随机数.  在/dev/random中获取随机数.  */
 int random_number (int min, int max)
 {
-/*  将打开/dev/random设备的文件描述符存储在静态变量中，这样就不会每次进行函数调用的时候孝重复的打开文件   */
-static int dev_random_fd = -1;
-char* next_random_byte;
-int bytes_to_read;
-unsigned random_value;
-/* 确保MAX要大于MIN  */
-assert (max > min);
-/* 如果是第一次调用函数，打开/dev/random.  */
-if (dev_random_fd == -1) {
-dev_random_fd = open (“/dev/random”, O_RDONLY);
-assert (dev_random_fd != -1);
-}
-/* 读取足够的字节到int类型中  */
-next_random_byte = (char*) &random_value;
-bytes_to_read = sizeof (random_value);
-/* 循环读取直到字节填充满.  由于/dev/random生成的随机数来自用户输入, 某一时刻可能耗尽随机源而锁定设备.  */
-do {
-int bytes_read;
-bytes_read = read (dev_random_fd, next_random_byte, bytes_to_read);
-bytes_to_read -= bytes_read;
-next_random_byte += bytes_read;
-} while (bytes_to_read > 0);
-/* 保证随机数在MIN与MAX的区间内 */
-return min + (random_value % (max - min + 1));
+	/*  将打开/dev/random设备的文件描述符存储在静态变量中
+		这样就不会每次进行函数调用的时候孝重复的打开文件   */
+  
+	static int dev_random_fd = -1;
+	char* next_random_byte;
+	int bytes_to_read;
+	unsigned random_value;
+  
+	/* 确保MAX要大于MIN  */
+	assert (max > min);
+
+	/* 如果是第一次调用函数，打开/dev/random.  */
+	if (dev_random_fd == -1) {
+		dev_random_fd = open (“/dev/random”, O_RDONLY);
+		assert (dev_random_fd != -1);
+	}
+	/* 读取足够的字节到int类型中  */
+	next_random_byte = (char*) &random_value;
+	bytes_to_read = sizeof (random_value);
+
+	/*  循环读取直到字节填充满.  由于/dev/random生成的随机数来自用户输入
+		某一时刻可能耗尽随机源而锁定设备.  */
+	do {
+		int bytes_read;
+		bytes_read = read (dev_random_fd, next_random_byte, bytes_to_read);
+		bytes_to_read -= bytes_read;
+		next_random_byte += bytes_read;
+	} while (bytes_to_read > 0);
+	/* 保证随机数在MIN与MAX的区间内 */
+	return min + (random_value % (max - min + 1));
 }
 ```
 
