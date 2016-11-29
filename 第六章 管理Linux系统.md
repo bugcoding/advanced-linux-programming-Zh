@@ -236,3 +236,51 @@ Linux还提供了几个不与任何硬件相对应的字符设备。这些设备
 >
 > ...
 
+在程序中通过`/dev/random`获取随机数也非常简单。清单6.1中列出了一个函数，用于在程序中通过`/dev/random`设备生成随机数字节流。记住`/dev/random`会在Linux随机源不耗尽的情况下锁定设备；如果你要求程序的执行效率比需要随机数的质量更甚，那就直接使用`/dev/urandom`来生成随机数。
+
+清单 6.1 (random_number.c) 使用`/dev/random`生成随机数的函数
+
+-------
+
+```c
+#include <assert.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <fcntl.h>
+#include <unistd.h>
+/* Return a random integer between MIN and MAX, inclusive.  Obtain
+randomness from /dev/random.  */
+int random_number (int min, int max)
+{
+/* Store a file descriptor opened to /dev/random in a static
+variable.  That way, we don’t need to open the file every time
+this function is called.  */
+static int dev_random_fd = -1;
+char* next_random_byte;
+int bytes_to_read;
+unsigned random_value;
+/* Make sure MAX is greater than MIN.  */
+assert (max > min);
+/* If this is the first time this function is called, open a file
+descriptor to /dev/random.  */
+if (dev_random_fd == -1) {
+dev_random_fd = open (“/dev/random”, O_RDONLY);
+assert (dev_random_fd != -1);
+}
+/* Read enough random bytes to fill an integer variable.  */
+next_random_byte = (char*) &random_value;
+bytes_to_read = sizeof (random_value);
+/* Loop until we’ve read enough bytes.  Because /dev/random is filled
+from user-generated actions, the read may block and may only
+return a single random byte at a time.  */
+do {
+int bytes_read;
+bytes_read = read (dev_random_fd, next_random_byte, bytes_to_read);
+bytes_to_read -= bytes_read;
+next_random_byte += bytes_read;
+} while (bytes_to_read > 0);
+/* Compute a random number in the correct range.  */
+return min + (random_value % (max - min + 1));
+}
+```
+
